@@ -1,1 +1,17 @@
+messages:
+  prefix: "&7[&bHitChain&7] "
+  reload-success: "%prefix% &aConfiguration reloaded successfully!"
+  no-permission: "%prefix% &cYou do not have permission to do that."
+  command-not-found: "%prefix% &cUnknown command. Type /hitchain help for a list of commands."
+  player-not-found: "%prefix% &cPlayer not found."
+  invalid-usage: "%prefix% &cInvalid usage. Try: %usage%"
+  cooldown-active: "%prefix% &ePlease wait %time% seconds before using this again."
+
+errors:
+  config-load-fail: "%prefix% &cFailed to load config file. Check your syntax."
+  database-connection: "%prefix% &cCould not connect to database. Retrying..."
+  command-error: "%prefix% &cAn unexpected error occurred while executing the command."
+
+notifications:
+  update-available: "%prefix% &eA new version of HitChainAPI is available! Current: %current% | Latest: %latest%"
 
