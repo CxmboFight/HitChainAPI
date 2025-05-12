@@ -53,7 +53,7 @@ Welcome to **HitChainAPI**, the most **advanced** and **scalable** plugin API fo
 Clone the repository to your local machine using Git:
 
 ```bash
-git clone https://github.com/username/HitChainAPI.git
+git clone https://github.com/CxmboFight/HitChainAPI.git
 ```
 
 ### 2. **Build the Project**
