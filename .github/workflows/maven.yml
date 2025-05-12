@@ -1,0 +1,86 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: 
+      - "main"
+  pull_request:
+    branches: 
+      - "main"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    # Increase the concurrency to handle multiple concurrent jobs
+    concurrency:
+      group: "java-build-${{ github.ref }}"
+      cancel-in-progress: true
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Step 2: Set up JDK 17
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven # Enable caching for Maven dependencies
+
+    # Step 3: Cache Maven dependencies
+    - name: Cache Maven dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    # Step 4: Build the project with Maven
+    - name: Build with Maven
+      run: mvn -B clean install --file pom.xml
+      continue-on-error: false
+
+    # Step 5: Run tests after building
+    - name: Run tests
+      run: mvn test --file pom.xml
+      continue-on-error: false
+
+    # Step 6: Check for code quality issues (optional, requires SonarCloud or other tools)
+    - name: Run code quality check (SonarCloud or other tool)
+      if: success() # Only run this step if the previous step is successful
+      run: |
+        # Example for SonarCloud, replace with your actual setup if needed
+        mvn sonar:sonar -Dsonar.projectKey=your_project_key -Dsonar.host.url=https://sonarcloud.io
+
+    # Step 7: Upload test results to GitHub Actions (optional, for better visibility)
+    - name: Upload test results to GitHub
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: target/test-classes/
+
+    # Step 8: Upload the build artifact (optional)
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifact
+        path: target/*.jar
+
+    # Step 9: Update Maven dependency graph (optional)
+    - name: Update dependency graph
+      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+
+    # Step 10: Notify Slack or other services (optional)
+    - name: Notify Slack about build status
+      if: failure() # Only run this step if the build fails
+      uses: slackapi/slack-github-action@v1.19.0
+      with:
+        payload: |
+          {
+            "text": ":x: Build failed for commit ${{ github.sha }} on branch ${{ github.ref }}. Check the details at ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}."
+          }
+        slack-token: ${{ secrets.SLACK_API_TOKEN }} # Store your Slack API token in GitHub secrets
