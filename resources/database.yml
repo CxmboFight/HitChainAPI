@@ -1,1 +1,23 @@
+database:
+  type: sqlite # Options: sqlite, mysql, redis
+  table-prefix: hitchain_
 
+sqlite:
+  file: "plugins/HitChainAPI/data.db"
+
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "hitchain"
+  user: "root"
+  password: "changeme"
+  use-ssl: false
+  pool-size: 10
+
+redis:
+  host: "localhost"
+  port: 6379
+  password: ""
+  channels:
+    - "hitchain:sync"
+    - "hitchain:broadcast"
