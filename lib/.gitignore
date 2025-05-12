@@ -1,1 +1,35 @@
+# Ignore the compiled Java classes
+*.class
+
+# Ignore the compiled JAR file
+*.jar
+
+# Ignore log files
+*.log
+
+# Ignore IDE specific files
+.idea/
+*.iml
+.vscode/
+
+# Ignore Maven's target folder (build output)
+target/
+
+# Ignore local Maven repository
+.m2/
+
+# Ignore Eclipse project files
+.project
+.classpath
+.settings/
+
+# Ignore IntelliJ project files
+.idea/
+
+# Ignore NetBeans project files
+nbproject/
+
+# Ignore OS-specific files (e.g., macOS Finder metadata)
+.DS_Store
+Thumbs.db
 
