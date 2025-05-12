@@ -1,50 +1,32 @@
-name: HitChainAPI
-main: com.hitchainapi.HitChainPlugin
-version: 1.0.0
-api-version: 1.13
-description: The ultimate all-in-one Minecraft 1.8.9 API framework for PvP, economy, quests, and more.
-author: CxmboFight
-website: https://github.com/CxmboFight/HitChainAPI
+plugin:
+  name: "HitChainAPI"
+  version: "1.0.0"
+  debug-mode: false
+  language: "en"
 
-commands:
-  hitchain:
-    description: Base command for HitChainAPI
-    usage: /<command>
-    permission: hitchain.command.use
-    aliases: [hc, hca]
+features:
+  enable-pvp: true
+  enable-economy: true
+  enable-quests: true
 
-permissions:
-  hitchain.*:
-    description: Gives access to all HitChainAPI commands and features.
-    default: op
-    children:
-      hitchain.command.use: true
-      hitchain.admin: true
-      hitchain.reload: true
+cooldowns:
+  command-delay: 2 # in seconds
+  ability-delay: 5
 
-  hitchain.command.use:
-    description: Access to basic HitChainAPI commands
-    default: true
+logging:
+  level: INFO
+  save-to-file: true
+  log-file: logs/hitchain.log
 
-  hitchain.admin:
-    description: Access to administrative commands (debug, force actions)
-    default: op
+performance:
+  async-operations: true
+  cache-size: 512
 
-  hitchain.reload:
-    description: Permission to reload plugin configurations
-    default: op
+hooks:
+  placeholderapi: true
+  vault: true
+  citizens: false
 
-softdepend:
-  - PlaceholderAPI
-  - Vault
-  - Essentials
-  - ProtocolLib
-  - Citizens
-
-load: POSTWORLD
-loadbefore:
-  - AnotherPluginThatUsesHitChain
-
-libraries:
-  - org.bstats:bstats-bukkit:3.0.0
-
+autoupdate:
+  enabled: true
+  check-interval: 3600 # in seconds
